@@ -23,12 +23,12 @@ function createFeatures(earthquakeData) {
   // Create a GeoJSON layer that contains the features array on the earthquakeData object.
   function createCircleMarkers(feature,latlng){
     let magStyle={
-      radius:feature.properties.mag * 5, 
-      fillColor: chooseColor(feature.properties.mag),
-      color:chooseColor(feature.properties.mag),
+      radius:feature.geometry.coordinates[2], 
+      fillColor: chooseColor(feature.geometry.coordinates[2]),
+      color:chooseColor(feature.geometry.coordinates[2]),
       weight:1,
       opacity:1,
-      fillOpacity: 0.5
+      fillOpacity: 0.8
     } 
     return L.circleMarker(latlng,magStyle);
   }
@@ -41,21 +41,21 @@ function createFeatures(earthquakeData) {
   // Send our earthquakes layer to the createMap function/
   createMap(earthquakes);
 }
-// Set color based on magniture
-function chooseColor(mag){
-  switch(true){
-      case(0 <= mag && mag <= 1):
-          return "#2FA8E2";
-      case (1 <= mag && mag <=2):
-          return "#2FE2D1";
-      case (2 <= mag && mag <=3):
-          return "#36E22F";
-      case (3 <= mag && mag <= 5):
-          return "#D3E22F";
-      case (5 <= mag && mag <=20.0):
-          return "#E2412F";
-      default:
-          return "#2F4FE2";
+// Set color based on magnitude depth
+function chooseColor(depth) {
+  switch(true) {
+    case (depth > 90):
+      return "#FD0719";
+    case (depth > 70):
+      return "#E25416";
+    case (depth > 50):
+      return "#F59648";
+    case (depth > 30):
+      return "#FBFD7C";
+    case (depth > 10):
+      return "#8FFD7C";
+    default:
+      return "#8FFD7C";
   }
 }
 function createMap(earthquakes) {
