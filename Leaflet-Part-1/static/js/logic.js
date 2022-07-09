@@ -42,6 +42,7 @@ function createFeatures(earthquakeData) {
   // Send our earthquakes layer to the createMap function/
   createMap(earthquakes);
 }
+
 // Set color based on magnitude depth
 function chooseColor(depth) {
   switch(true) {
@@ -63,17 +64,16 @@ function chooseColor(depth) {
   var legend = L.control({position: 'bottomright'});
 
   legend.onAdd = function(myMap) {
-    var div = L.DomUtil.create('div', 'legend'),
+    var div = L.DomUtil.create('div', 'info legend'),
     depth = [-10, 10, 30, 50, 70, 90];
     div.innerHTML += "<h2 style='text-align: center'>Depth</h2>"
+    for (var i =0; i < depth.length; i++) {
+      div.innerHTML += 
+      '<i style="background:' + chooseColor(depth[i] + 1) + '"></i> ' +
+          depth[i] + (depth[i + 1] ? '&ndash;' + depth[i + 1] + '<br>' : '+');
+    }
 
-  for (var i =0; i < depth.length; i++) {
-    div.innerHTML += 
-    '<i style="background:' + chooseColor(depth[i] + 1) + '"></i> ' +
-        depth[i] + (depth[i + 1] ? '&ndash;' + depth[i + 1] + '<br>' : '+');
-   }
-
-    return div;
+      return div;
   };
   
 function createMap(earthquakes) {
